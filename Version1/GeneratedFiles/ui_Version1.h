@@ -36,11 +36,11 @@ public:
         centralWidget = new QWidget(Version1Class);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         Version1Class->setCentralWidget(centralWidget);
-        mainToolBar = new QToolBar(Version1Class);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        Version1Class->addToolBar(Qt::TopToolBarArea, mainToolBar);
-        statusBar = new QStatusBar(Version1Class);
-        statusBar->setObjectName(QStringLiteral("statusBar"));
+        //mainToolBar = new QToolBar(Version1Class);
+        //mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
+        //Version1Class->addToolBar(Qt::TopToolBarArea, mainToolBar);
+        //statusBar = new QStatusBar(Version1Class);
+        //statusBar->setObjectName(QStringLiteral("statusBar"));
         Version1Class->setStatusBar(statusBar);
 
         retranslateUi(Version1Class);
@@ -50,7 +50,7 @@ public:
 
     void retranslateUi(QMainWindow *Version1Class)
     {
-        Version1Class->setWindowTitle(QApplication::translate("Version1Class", "Version1", Q_NULLPTR));
+        //Version1Class->setWindowTitle(QApplication::translate("Version1Class", "Version1", Q_NULLPTR));
     } // retranslateUi
 
 };

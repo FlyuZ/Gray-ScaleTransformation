@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 
 	Version1 window;
 	window.setWindowTitle(QObject::tr("Gray-Scale transformation"));
-
+	window.resize(480, 320);
 	window.show();
 
 	return app.exec();
