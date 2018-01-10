@@ -149,5 +149,9 @@ void Version1::openGrayscaleSlot()
 
 void Version1::traslateSlot()
 {
-
+	a = spinA->value();
+	b = spinB->value();
+	c = spinC->value();
+	d = spinD->value();
+	dstI = GrayTo(srcI, a, b, c, d);
 }
