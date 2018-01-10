@@ -1,8 +1,6 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
-#include <QMenu>
-#include <QMenuBar>
 #include <QToolBar>
 #include <QAction>
 #include <QMessageBox>
@@ -11,10 +9,9 @@
 #include <QSpinBox>
 #include <QLayout>
 #include <QLabel>
-#include <QDebug>
 #include <iostream>
 #include <string>
-#include <opencv2\core\core.hpp>
+#include "Translation.h"
 //#include "ui_Version1.h"
 
 class Version1 : public QMainWindow
@@ -28,13 +25,14 @@ private slots:
 	void helpOpenActionSlot();
 	void openGrayscaleSlot();
 	void traslateSlot();
+	void saveImageSlot();
 private:
 	//Ui::Version1Class ui;
 	void createAction();  //创建动作
-	void createMenu();    //创建菜单
 	void createToolBar(); //创建工具
 	void initWindow();    //初始化界面
-	QString fileName;     //打开的图片路径及名称
+	QString fileFull;     //打开的图片路径及名称
+	QString fileSuffix;   //文件后缀名
 	QString filePath;     //保存文件时的路径
 	cv::Mat srcI;         //灰度图
 	cv::Mat dstI;         //转换后的图片
@@ -51,17 +49,17 @@ private:
 	QLabel *labelB;
 	QLabel *labelC;
 	QLabel *labelD;
-	int a, b, c, d;
+	int a = 0, b = 0, c = 0, d = 0;      //参数
 
 	QAction *fileOpenAction;       //打开文件动作
 	QAction *helpOpenAction;       //打开帮助动作
 	QAction *openGrayscaleAction;  //打开灰度图动作
 	QAction *traslateAction;       //打开转换后的图片
+	QAction *saveImageAction;      //保存转换后的图片
 
-	QMenu *fileMenu;           //菜单文件
-	QMenu *helpMenu;           //帮助菜单
 	QToolBar *fileTool;        //选择文件工具
 	QToolBar *helpTool;        //帮助工具
 	QToolBar *grayscaleTool;   //打开灰度图工具
 	QToolBar *traslateTool;    //转换工具
+	QToolBar *saveImageTool;   //保存图片功能
 };

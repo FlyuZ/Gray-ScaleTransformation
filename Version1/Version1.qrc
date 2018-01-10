@@ -1,4 +1,9 @@
 <RCC>
-    <qresource prefix="Version1">
+    <qresource prefix="/Version1">
+        <file>Resources/1.png</file>
+        <file>Resources/2.png</file>
+        <file>Resources/3.png</file>
+        <file>Resources/4.png</file>
+        <file>Resources/5.png</file>
     </qresource>
 </RCC>

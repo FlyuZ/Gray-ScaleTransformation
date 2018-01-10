@@ -1,51 +1,61 @@
 #include "Version1.h"
-#include "Translation.h"
+
 
 Version1::Version1(QWidget *parent)
 	: QMainWindow(parent)
 {
 	createAction();
-	createMenu();
 	createToolBar();
 	initWindow();
+
+	this->setWindowOpacity(0.9); //窗口整体透明度，0-1 从全透明到不透明  
+ 
 	//ui.setupUi(this);
 }
 
 void Version1::createAction()
 {
-	//创建打开文件动作  
-	fileOpenAction = new QAction(tr("Select Image"), this); 
-	//关联打开文件动作的信号和槽  
+	//创建打开文件动作  关联信号和槽 
+	fileOpenAction = new QAction(QIcon(":/Version1/Resources/1.png"), tr("Select Image"), this);
 	connect(fileOpenAction, SIGNAL(triggered()), this, SLOT(fileOpenActionSlot()));
-	//创建打开帮助文档动作
-	helpOpenAction = new QAction(tr("Open Help"), this);
-	//关联帮助文档的信号和槽
-	connect(helpOpenAction, SIGNAL(triggered()), this, SLOT(helpOpenActionSlot()));
-	//
-	openGrayscaleAction = new QAction(tr("Open GrayScale"), this);
+	//创建打开灰度图动作  关联
+	openGrayscaleAction = new QAction(QIcon(":/Version1/Resources/2.png"), tr("Open GrayScale"), this);
 	connect(openGrayscaleAction, SIGNAL(triggered()), this, SLOT(openGrayscaleSlot()));
-	//
-	traslateAction = new QAction(tr("Traslate"), this);
+	//创建灰度转换动作   关联
+	traslateAction = new QAction(QIcon(":/Version1/Resources/3.png"), tr("Traslate"), this);
 	connect(traslateAction, SIGNAL(triggered()), this, SLOT(traslateSlot()));
+	//创建保存图片动作  关联
+	saveImageAction = new QAction(QIcon(":/Version1/Resources/4.png"), tr("Save"), this);
+	connect(saveImageAction, SIGNAL(triggered()), this, SLOT(saveImageSlot()));
+	//创建打开帮助文档动作  关联
+	helpOpenAction = new QAction(QIcon(":/Version1/Resources/5.png"), tr("Open Help"), this);
+	connect(helpOpenAction, SIGNAL(triggered()), this, SLOT(helpOpenActionSlot()));
+	
 }
 
-void  Version1::createMenu()
-{
-	fileMenu = this->menuBar()->addMenu(tr("File")); //创建文件菜单
-	helpMenu = this->menuBar()->addMenu(tr("Help")); //创建帮助菜单
-	fileMenu->addAction(fileOpenAction);
-	helpMenu->addAction(helpOpenAction);
-}
+
 void Version1::createToolBar()
 {
-	fileTool = addToolBar(tr("File")); //创建文件工具
+	//初始化文件工具
+	fileTool = addToolBar("File");
 	fileTool->addAction(fileOpenAction);
-	grayscaleTool = addToolBar(tr("Open GrayScale"));//创建打开灰度图工具
+	fileTool->setStatusTip("Select Image");
+	//初始化打开灰度图工具
+	grayscaleTool = addToolBar("Open GrayScale");
 	grayscaleTool->addAction(openGrayscaleAction);
-	traslateTool = addToolBar(tr("Traslate"));//创建转换工具
+	grayscaleTool->setStatusTip("Open GrayScale");
+	//初始化转换工具
+	traslateTool = addToolBar("Traslate");
 	traslateTool->addAction(traslateAction);
-	helpTool = addToolBar(tr("Help")); //创建帮助工具
+	//traslateTool->setStatusTip("Traslate and Open");
+	//初始化保存工具
+	saveImageTool = addToolBar("save");
+	saveImageTool->addAction(saveImageAction);
+
+	//创建帮助工具
+	helpTool = addToolBar("Help");
 	helpTool->addAction(helpOpenAction);
+	//helpTool->setStatusTip("Open Help");
 }
 
 void  Version1::initWindow()
@@ -59,7 +69,7 @@ void  Version1::initWindow()
 	spinD = new QSpinBox(this);
 	sliderD = new QSlider(Qt::Horizontal,this);
 
-	spinA->setRange(0, 255);
+	spinA->setRange(0, 255); //设置数字范围
 	spinB->setRange(0, 255);
 	spinC->setRange(0, 255);
 	spinD->setRange(0, 255);
@@ -69,6 +79,7 @@ void  Version1::initWindow()
 	sliderD->setRange(0, 255);
 
 	void (QSpinBox:: *spinBoxSignal)(int) = &QSpinBox::valueChanged;
+	//关联QSpinBox和QSlider
 	QObject::connect(sliderA, &QSlider::valueChanged, spinA, &QSpinBox::setValue);
 	QObject::connect(spinA, spinBoxSignal, sliderA, &QSlider::setValue);
 	spinA->setValue(0);
@@ -82,27 +93,27 @@ void  Version1::initWindow()
 	QObject::connect(spinD, spinBoxSignal, sliderD, &QSlider::setValue);
 	spinD->setValue(0);
 
-	labelA = new QLabel("A");
-	labelB = new QLabel("B");
-	labelC = new QLabel("C");
-	labelD = new QLabel("D");
+	labelA = new QLabel("Parameter A:  ");
+	labelB = new QLabel("Parameter B:  ");
+	labelC = new QLabel("Parameter C:  ");
+	labelD = new QLabel("Parameter D:  ");
 
 	QWidget *widget = new QWidget(this);
 	this->setCentralWidget(widget);
 	QGridLayout *gLayout = new QGridLayout();
-	gLayout->addWidget(labelA, 0, 0, 1, 1);
+	gLayout->addWidget(labelA, 0, 0, 1, 1, Qt::AlignRight);
 	gLayout->addWidget(spinA, 0, 1, 1, 1);
 	gLayout->addWidget(sliderA, 0, 2, 1, 2);
 
-	gLayout->addWidget(labelB, 1, 0, 1, 1);
+	gLayout->addWidget(labelB, 1, 0, 1, 1, Qt::AlignRight);
 	gLayout->addWidget(spinB, 1, 1, 1, 1);
 	gLayout->addWidget(sliderB, 1, 2, 1, 2);
 
-	gLayout->addWidget(labelC, 2, 0, 1, 1);
+	gLayout->addWidget(labelC, 2, 0, 1, 1, Qt::AlignRight);
 	gLayout->addWidget(spinC, 2, 1, 1, 1);
 	gLayout->addWidget(sliderC, 2, 2, 1, 2);
 
-	gLayout->addWidget(labelD, 3, 0, 1, 1);
+	gLayout->addWidget(labelD, 3, 0, 1, 1, Qt::AlignRight);
 	gLayout->addWidget(spinD, 3, 1, 1, 1);
 	gLayout->addWidget(sliderD, 3, 2, 1, 2);
 
@@ -127,11 +138,13 @@ void  Version1::fileOpenActionSlot()
 	fileDialog->setFileMode(QFileDialog::ExistingFiles);
 	//设置视图模式  
 	fileDialog->setViewMode(QFileDialog::Detail);
-	//打印所有选择的文件的路径  
 
 	if (fileDialog->exec())
 	{
-		fileName = fileDialog->selectedFiles()[0];
+		fileFull = fileDialog->selectedFiles()[0];
+		QFileInfo fileInfo = QFileInfo(fileFull);
+		filePath = fileInfo.absolutePath();
+		fileSuffix = fileInfo.suffix();
 	}
 }
 
@@ -144,7 +157,16 @@ void Version1::helpOpenActionSlot()
 
 void Version1::openGrayscaleSlot()
 {
-	srcI = readFile(fileName.toStdString());
+	if(fileFull.isEmpty())
+	{
+		std::string infoStr("请先选择图片");
+		QString infoText = QString::fromLocal8Bit(infoStr.data());
+		QMessageBox::information(this, "!", infoText, QMessageBox::Ok);
+	}
+	else 
+	{
+		srcI = readFile(fileFull.toStdString());
+	}
 }
 
 void Version1::traslateSlot()
@@ -153,5 +175,33 @@ void Version1::traslateSlot()
 	b = spinB->value();
 	c = spinC->value();
 	d = spinD->value();
-	dstI = GrayTo(srcI, a, b, c, d);
+	if(fileFull.isEmpty() || (a == 0 && b == 0 && c == 0 && d == 0))
+	{
+		std::string infoStr("请先选择图片及设置参数");
+		QString infoText = QString::fromLocal8Bit(infoStr.data());
+		QMessageBox::information(this, "!", infoText, QMessageBox::Ok);
+	}
+	else 
+	{
+		dstI = GrayTo(srcI, a, b, c, d);
+	}
+}
+
+void Version1::saveImageSlot()
+{
+	if (dstI.empty())
+	{
+		std::string infoStr("请先进行转换");
+		QString infoText = QString::fromLocal8Bit(infoStr.data());
+		QMessageBox::information(this, "!", infoText, QMessageBox::Ok);
+	}
+	else
+	{
+		if (saveMat(dstI, filePath.toStdString(), fileSuffix.toStdString(), a, b, c, d))
+		{
+			std::string infoStr("保存成功");
+			QString infoText = QString::fromLocal8Bit(infoStr.data());
+			QMessageBox::information(this, "!", infoText, QMessageBox::Ok);
+		}
+	}
 }

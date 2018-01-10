@@ -1,14 +1,9 @@
 #include "Translation.h"
 
-
 cv::Mat readFile(std::string fileName)
 {
 	cv::Mat srcImage = cv::imread(fileName, 0);
 
-	if (!srcImage.data)
-	{
-		//return 0;
-	}
 	imshow("灰度图", srcImage);
 	return srcImage;
 }
@@ -27,21 +22,38 @@ cv::Mat GrayTo(cv::Mat srcI, int a, int b, int c, int d)
 	//图像指针操作
 	uchar *pDataMat;
 	//进行对比度拉伸
-	for (int j = 0; j<rowsNum; j++)
+	for (int j=0; j<rowsNum; j++)
 	{
 		pDataMat = dstImage.ptr<uchar>(j);
-		for (int i = 0; i<colsNum; i++)
+		for (int i=0; i<colsNum; i++)
 		{
-			if (pDataMat[i] < a) {
+			if (pDataMat[i] < a) 
+			{
 				pDataMat[i] = pDataMat[i] * c / a;
 			}
-			else if (pDataMat[i] > b) {
+			else if (pDataMat[i] > b)
+			{
 				pDataMat[i] = (pDataMat[i] - b) * (255 - d) / (255 - b) + d;
 			}
 			else
+			{
 				pDataMat[i] = (pDataMat[i] - a) * (d - c) / (b - a) + c;
+			}
 		}
 	}
 	imshow("转换后灰度图", dstImage);
 	return dstImage;
+}
+
+bool saveMat(cv::Mat dstI, std::string Path, std::string Suffix, int a, int b, int c, int d)
+{
+	std::stringstream ss;
+	std::string Full;
+	ss << Path << "/"<< a << "-" << b << "-" << c << "-" << d << "." << Suffix;
+	ss >> Full;
+	
+	if (imwrite(Full, dstI))
+		return true;
+	else
+		return false;
 }
