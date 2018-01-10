@@ -1,5 +1,11 @@
 #include "Translation.h"
 
+/**
+By NWAFU Flyuz
+http://blog.csdn.net/ZHangFFYY/
+2018/1/10
+**/
+
 cv::Mat readFile(std::string fileName)
 {
 	cv::Mat srcImage = cv::imread(fileName, 0);

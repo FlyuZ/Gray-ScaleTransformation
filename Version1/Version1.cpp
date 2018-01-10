@@ -1,5 +1,10 @@
 #include "Version1.h"
 
+/**
+By NWAFU Flyuz
+http://blog.csdn.net/ZHangFFYY/
+2018/1/10
+**/
 
 Version1::Version1(QWidget *parent)
 	: QMainWindow(parent)
@@ -12,7 +17,10 @@ Version1::Version1(QWidget *parent)
  
 	//ui.setupUi(this);
 }
+Version1::~Version1()
+{
 
+}
 void Version1::createAction()
 {
 	//创建打开文件动作  关联信号和槽 
@@ -30,7 +38,6 @@ void Version1::createAction()
 	//创建打开帮助文档动作  关联
 	helpOpenAction = new QAction(QIcon(":/Version1/Resources/5.png"), tr("Open Help"), this);
 	connect(helpOpenAction, SIGNAL(triggered()), this, SLOT(helpOpenActionSlot()));
-	
 }
 
 
@@ -150,7 +157,7 @@ void  Version1::fileOpenActionSlot()
 
 void Version1::helpOpenActionSlot()
 {
-	std::string helpStr("说明文档");
+	std::string helpStr("通过设置A,B,C,D的值，可以对任一灰度区间进行扩展或压缩。\n如果一幅图像偏暗，可使斜率>1来改善。\n如果一幅图像偏亮，可使斜率<1来改善\n作者：Flyuz  QQ：522893161");
 	QString helpText = QString::fromLocal8Bit(helpStr.data());
 	QMessageBox::information(this, "Help", helpText, QMessageBox::Ok);//下个版本添加图标~
 }
@@ -175,9 +182,9 @@ void Version1::traslateSlot()
 	b = spinB->value();
 	c = spinC->value();
 	d = spinD->value();
-	if(fileFull.isEmpty() || (a == 0 && b == 0 && c == 0 && d == 0))
+	if(fileFull.isEmpty() || (a == b && b == c && c == d) || (a > b))
 	{
-		std::string infoStr("请先选择图片及设置参数");
+		std::string infoStr("请先选择图片及设置正确参数");
 		QString infoText = QString::fromLocal8Bit(infoStr.data());
 		QMessageBox::information(this, "!", infoText, QMessageBox::Ok);
 	}

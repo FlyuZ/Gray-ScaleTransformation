@@ -9,10 +9,15 @@
 #include <QSpinBox>
 #include <QLayout>
 #include <QLabel>
-#include <iostream>
 #include <string>
 #include "Translation.h"
 //#include "ui_Version1.h"
+
+/**
+By NWAFU Flyuz
+http://blog.csdn.net/ZHangFFYY/
+2018/1/10
+**/
 
 class Version1 : public QMainWindow
 {
@@ -20,8 +25,9 @@ class Version1 : public QMainWindow
 
 public:
 	Version1(QWidget *parent = Q_NULLPTR);
+	~Version1();
 private slots:
-	void fileOpenActionSlot();
+	void fileOpenActionSlot(); //²Û
 	void helpOpenActionSlot();
 	void openGrayscaleSlot();
 	void traslateSlot();
