@@ -1,4 +1,4 @@
-#include "GrayST.h"
+#include "GraySTui.h"
 #include <QtWidgets/QApplication>
 
 int main(int argc, char *argv[])
@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 	icon.addFile(QStringLiteral(":/GrayST/Resources/Ico.ico"), QSize(), QIcon::Normal, QIcon::Off);
 
 	GrayST window;
-	window.setWindowTitle(QObject::tr("Gray-Scale-Transformation v1.1"));
+	window.setWindowTitle(QObject::tr("Gray-Scale-Transformation v1.2"));
 	window.setWindowIcon(icon);
 	window.show();
 	window.resize(480, 320);
