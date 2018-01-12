@@ -19,21 +19,28 @@ GrayST::~GrayST()
 
 void GrayST::createAction()
 {
-	//创建打开文件动作  关联信号和槽 
-	fileOpenAction = new QAction(QIcon(":/GrayST/Resources/1.png"), tr("Select Image"), this);
+	//创建打开文件动作  关联信号和槽
+	QString fileSel = QString::fromLocal8Bit("选择一张图片");
+	fileOpenAction = new QAction(QIcon(":/GrayST/Resources/1.png"), fileSel, this);
 	connect(fileOpenAction, SIGNAL(triggered()), this, SLOT(fileOpenActionSlot()));
 	//创建打开灰度图动作  关联
-	openGrayscaleAction = new QAction(QIcon(":/GrayST/Resources/2.png"), tr("Open GrayScale"), this);
+	QString openGrayStr = QString::fromLocal8Bit("打开灰度图");
+	openGrayscaleAction = new QAction(QIcon(":/GrayST/Resources/2.png"), openGrayStr, this);
 	connect(openGrayscaleAction, SIGNAL(triggered()), this, SLOT(openGrayscaleSlot()));
 	//创建灰度转换动作   关联
-	traslateAction = new QAction(QIcon(":/GrayST/Resources/3.png"), tr("Traslate"), this);
+	QString traStr = QString::fromLocal8Bit("灰度变换");
+	traslateAction = new QAction(QIcon(":/GrayST/Resources/3.png"), traStr, this);
 	connect(traslateAction, SIGNAL(triggered()), this, SLOT(traslateSlot()));
 	//创建保存图片动作  关联
-	saveImageAction = new QAction(QIcon(":/GrayST/Resources/4.png"), tr("Save"), this);
+	QString saveStr = QString::fromLocal8Bit("保存变换后的图片");
+	saveImageAction = new QAction(QIcon(":/GrayST/Resources/4.png"), saveStr, this);
 	connect(saveImageAction, SIGNAL(triggered()), this, SLOT(saveImageSlot()));
 	//创建打开帮助文档动作  关联
-	helpOpenAction = new QAction(QIcon(":/GrayST/Resources/5.png"), tr("Open Help"), this);
+	QString helpStr = QString::fromLocal8Bit("打开帮助");
+	helpOpenAction = new QAction(QIcon(":/GrayST/Resources/5.png"), helpStr, this);
 	connect(helpOpenAction, SIGNAL(triggered()), this, SLOT(helpOpenActionSlot()));
+	//关联下拉菜单
+
 }
 
 
@@ -42,15 +49,15 @@ void GrayST::createToolBar()
 	//初始化文件工具
 	fileTool = addToolBar("File");
 	fileTool->addAction(fileOpenAction);
-	fileTool->setStatusTip("Select Image");
+
 	//初始化打开灰度图工具
 	grayscaleTool = addToolBar("Open GrayScale");
 	grayscaleTool->addAction(openGrayscaleAction);
-	grayscaleTool->setStatusTip("Open GrayScale");
+
 	//初始化转换工具
 	traslateTool = addToolBar("Traslate");
 	traslateTool->addAction(traslateAction);
-	//traslateTool->setStatusTip("Traslate and Open");
+
 	//初始化保存工具
 	saveImageTool = addToolBar("save");
 	saveImageTool->addAction(saveImageAction);
@@ -58,7 +65,17 @@ void GrayST::createToolBar()
 	//创建帮助工具
 	helpTool = addToolBar("Help");
 	helpTool->addAction(helpOpenAction);
-	//helpTool->setStatusTip("Open Help");
+
+	selectTool = addToolBar("select");
+	selectBox = new QComboBox();
+	QString sel1 = QString::fromLocal8Bit("分段线性变换");
+	QString sel2 = QString::fromLocal8Bit("对数变换");
+	QString sel3 = QString::fromLocal8Bit("分层变换");
+	selectBox->addItem(QIcon(":/GrayST/Resources/7.png"), sel1);
+	selectBox->addItem(QIcon(":/GrayST/Resources/7.png"), sel2);
+	selectBox->addItem(QIcon(":/GrayST/Resources/7.png"), sel3);
+	selectTool->addWidget(selectBox);
+
 }
 
 void  GrayST::initWindow()
@@ -99,13 +116,6 @@ void  GrayST::initWindow()
 	QObject::connect(sliderD, &QSlider::valueChanged, spinD, &QSpinBox::setValue);
 	QObject::connect(spinD, spinBoxSignal, sliderD, &QSlider::setValue);
 	spinD->setValue(0);
-
-	/*
-	labelA = new QLabel("Parameter A:  ");
-	labelB = new QLabel("Parameter B:  ");
-	labelC = new QLabel("Parameter C:  ");
-	labelD = new QLabel("Parameter D:  ");
-	*/
 
 	QGroupBox *groupA = new QGroupBox(tr("Parameter A"));
 	QGroupBox *groupB = new QGroupBox(tr("Parameter B"));
@@ -215,7 +225,18 @@ void GrayST::traslateSlot()
 	}
 	else
 	{
-		dstI = PieGrayTo(srcI, a, b, c, d);
+		if (selectBox->currentIndex() == 0)
+		{
+			dstI = PieGrayTo(srcI, a, b, c, d);
+		}
+		else if (selectBox->currentIndex() == 1)
+		{
+			dstI = LogGrayTo(srcI, a);
+		}
+		else if(selectBox->currentIndex() == 2)
+		{
+			dstI = SliGrayTo(srcI, a);
+		}
 	}
 }
 

@@ -39,10 +39,10 @@ cv::Mat PieGrayTo(cv::Mat srcI, int a, int b, int c, int d)
 	//图像指针操作
 	uchar *pDataMat;
 	//进行对比度拉伸
-	for (int j = 0; j<rowsNum; j++)
+	for (int j=0; j<rowsNum; j++)
 	{
 		pDataMat = dstImage.ptr<uchar>(j);
-		for (int i = 0; i<colsNum; i++)
+		for (int i=0; i<colsNum; i++)
 		{
 			if (pDataMat[i] < a)
 			{
@@ -76,10 +76,10 @@ cv::Mat SliGrayTo(cv::Mat srcI, int a)
 	//图像指针操作
 	uchar *pDataMat;
 	//进行对比度拉伸
-	for (int j = 0; j<rowsNum; j++)
+	for (int j=0; j<rowsNum; j++)
 	{
 		pDataMat = dstImage.ptr<uchar>(j);
-		for (int i = 0; i<colsNum; i++)
+		for (int i=0; i<colsNum; i++)
 		{
 			if (pDataMat[i] > a)
 			{

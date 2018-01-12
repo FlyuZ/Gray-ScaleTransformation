@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
 	GrayST window;
 	window.setWindowTitle(QObject::tr("Gray-Scale-Transformation v1.2"));
 	window.setWindowIcon(icon);
+	
 	window.show();
 	window.resize(480, 320);
 

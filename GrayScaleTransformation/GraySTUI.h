@@ -10,6 +10,7 @@
 #include <QLayout>
 #include <QFileDialog>
 #include <QGroupBox>
+#include <QComboBox>
 #include "GrayTo.h"
 
 /**
@@ -18,7 +19,9 @@ http://blog.csdn.net/ZHangFFYY/
 2018/1/10
 完成界面框架
 2018/1/11
-完成v1.0版本基本功能
+完成v1.2版本基本功能
+2018/1/11
+完成v1.8版本，图片显示有问题，改为qt显示。
 **/
 
 class GrayST : public QMainWindow
@@ -52,10 +55,7 @@ private:
 	QSlider *sliderB;
 	QSlider *sliderC;
 	QSlider *sliderD;
-	QLabel *labelA;
-	QLabel *labelB;
-	QLabel *labelC;
-	QLabel *labelD;
+
 	int a = 0, b = 0, c = 0, d = 0;      //参数
 
 	QAction *fileOpenAction;       //打开文件动作
@@ -69,6 +69,9 @@ private:
 	QToolBar *grayscaleTool;   //打开灰度图工具
 	QToolBar *traslateTool;    //转换工具
 	QToolBar *saveImageTool;   //保存图片功能
+
+	QToolBar *selectTool;  //选择模式工具
+	QComboBox *selectBox;
 
 	void setSliderQss(QSlider *slider, QString normalColor, QString grooveColor, QString handleColor); //玩的
 };
