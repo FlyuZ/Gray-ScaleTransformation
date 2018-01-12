@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 	icon.addFile(QStringLiteral(":/GrayST/Resources/Ico.ico"), QSize(), QIcon::Normal, QIcon::Off);
 
 	GrayST window;
-	window.setWindowTitle(QObject::tr("Gray-Scale-Transformation v1.9.3"));
+	window.setWindowTitle(QObject::tr("Gray-Scale-Transformation v1.9.6"));
 	window.setWindowIcon(icon);
 	
 	window.show();

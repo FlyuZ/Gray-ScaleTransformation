@@ -24,6 +24,8 @@ http://blog.csdn.net/ZHangFFYY/
 完成v1.8版本，图片显示有问题，改为qt显示。
 2018/1/12
 图片显示依然有问题，进行一些小修改
+2018/1/12
+测试版v1.9.6上线 
 **/
 
 class GrayST : public QMainWindow

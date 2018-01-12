@@ -206,7 +206,7 @@ void  GrayST::fileOpenActionSlot()
 
 void GrayST::helpOpenActionSlot()
 {
-	std::string helpStr("通过设置A,B,C,D的值，可以对任一灰度区间进行扩展或压缩。\n如果一幅图像偏暗，可使斜率>1来改善。\n如果一幅图像偏亮，可使斜率<1来改善\n作者：Flyuz  QQ：522893161");
+	std::string helpStr("请先点击选择图片，点击将原图转换成灰度图\n再选择模式和调节参数，然后显示变换后的图片并保存\n设置A,B,C,D的值，用分段函数对任一灰度区间进行扩展或压缩。\n设置E的值，用对数函数对灰度区间进行非线性变换\n作者：Flyuz  QQ：522893161");
 	QString helpText = QString::fromLocal8Bit(helpStr.data());
 	QMessageBox::information(this, "Help", helpText, QMessageBox::Ok);//下个版本添加图标~
 }
@@ -260,6 +260,7 @@ void GrayST::traslateSlot()
 			{
 				dstI = PieGrayTo(srcI, a, b, c, d);
 				imshow("分段线性变换", dstI);
+				srcI = readFile(fileFull.toStdString());
 			}
 		}
 		else if (selectBox->currentIndex() == 1)
@@ -274,6 +275,7 @@ void GrayST::traslateSlot()
 			{
 				dstI = LogGrayTo(srcI, e);
 				imshow("对数灰度变换", dstI);
+				srcI = readFile(fileFull.toStdString());
 			}
 		}
 	}
@@ -289,9 +291,15 @@ void GrayST::saveImageSlot()
 	}
 	else
 	{
-		if (saveMat(dstI, filePath.toStdString(), fileSuffix.toStdString(), a, b, c, d))
+		if (selectBox->currentIndex() == 0)
 		{
-			std::string infoStr("保存成功");
+			std::string infoStr(savePieMat(dstI, filePath.toStdString(), fileSuffix.toStdString(), a, b, c, d));
+			QString infoText = QString::fromLocal8Bit(infoStr.data());
+			QMessageBox::information(this, "!", infoText, QMessageBox::Ok);
+		}
+		if (selectBox->currentIndex() == 1)
+		{
+			std::string infoStr(saveLogMat(dstI, filePath.toStdString(), fileSuffix.toStdString(),e));
 			QString infoText = QString::fromLocal8Bit(infoStr.data());
 			QMessageBox::information(this, "!", infoText, QMessageBox::Ok);
 		}

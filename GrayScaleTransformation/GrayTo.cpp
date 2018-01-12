@@ -11,17 +11,30 @@ cv::Mat readFile(std::string fileName)
 	return srcImage;
 }
 
-bool saveMat(cv::Mat dstI, std::string Path, std::string Suffix, int a, int b, int c, int d)
+std::string savePieMat(cv::Mat dstI, std::string Path, std::string Suffix, int a, int b, int c, int d)
 {
 	std::stringstream ss;
 	std::string Full;
-	ss << Path << "/" << a << "-" << b << "-" << c << "-" << d << "." << Suffix;
+	ss << Path << "/" << "已保存至分段" << a << "-" << b << "-" << c << "-" << d << "." << Suffix;
 	ss >> Full;
 
 	if (imwrite(Full, dstI))
-		return true;
+		return Full;
 	else
-		return false;
+		return "保存失败！";
+}
+
+std::string saveLogMat(cv::Mat dstI, std::string Path, std::string Suffix, int e)
+{
+	std::stringstream ss;
+	std::string Full;
+	ss << Path << "/" << "已保存至对数" << e << "." << Suffix;
+	ss >> Full;
+
+	if (imwrite(Full, dstI))
+		return Full;
+	else
+		return "保存失败！";
 }
 
 cv::Mat PieGrayTo(cv::Mat srcIm, int a, int b, int c, int d)
