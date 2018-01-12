@@ -22,6 +22,8 @@ http://blog.csdn.net/ZHangFFYY/
 完成v1.2版本基本功能
 2018/1/11
 完成v1.8版本，图片显示有问题，改为qt显示。
+2018/1/12
+图片显示依然有问题，进行一些小修改
 **/
 
 class GrayST : public QMainWindow
@@ -51,12 +53,14 @@ private:
 	QSpinBox *spinB;
 	QSpinBox *spinC;
 	QSpinBox *spinD;
+	QSpinBox *spinE;
 	QSlider *sliderA;
 	QSlider *sliderB;
 	QSlider *sliderC;
 	QSlider *sliderD;
+	QSlider *sliderE;
 
-	int a = 0, b = 0, c = 0, d = 0;      //参数
+	int a = 0, b = 0, c = 0, d = 0, e = 0;      //参数
 
 	QAction *fileOpenAction;       //打开文件动作
 	QAction *helpOpenAction;       //打开帮助动作
@@ -73,5 +77,7 @@ private:
 	QToolBar *selectTool;  //选择模式工具
 	QComboBox *selectBox;
 
-	void setSliderQss(QSlider *slider, QString normalColor, QString grooveColor, QString handleColor); //玩的
+	QPixmap matToQP(cv::Mat);  //Mat格式转Qpixmap
+	void showWid(cv::Mat);
+	void setSliderQss(QSlider *slider, QString normalColor, QString grooveColor, QString handleColor); //QSS
 };

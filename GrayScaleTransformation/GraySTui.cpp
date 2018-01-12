@@ -22,23 +22,23 @@ void GrayST::createAction()
 	//创建打开文件动作  关联信号和槽
 	QString fileSel = QString::fromLocal8Bit("选择一张图片");
 	fileOpenAction = new QAction(QIcon(":/GrayST/Resources/1.png"), fileSel, this);
-	connect(fileOpenAction, SIGNAL(triggered()), this, SLOT(fileOpenActionSlot()));
+	connect(fileOpenAction, &QAction::triggered, this, &GrayST::fileOpenActionSlot);
 	//创建打开灰度图动作  关联
 	QString openGrayStr = QString::fromLocal8Bit("打开灰度图");
 	openGrayscaleAction = new QAction(QIcon(":/GrayST/Resources/2.png"), openGrayStr, this);
-	connect(openGrayscaleAction, SIGNAL(triggered()), this, SLOT(openGrayscaleSlot()));
+	connect(openGrayscaleAction, &QAction::triggered, this, &GrayST::openGrayscaleSlot);
 	//创建灰度转换动作   关联
 	QString traStr = QString::fromLocal8Bit("灰度变换");
 	traslateAction = new QAction(QIcon(":/GrayST/Resources/3.png"), traStr, this);
-	connect(traslateAction, SIGNAL(triggered()), this, SLOT(traslateSlot()));
+	connect(traslateAction, &QAction::triggered, this, &GrayST::traslateSlot);
 	//创建保存图片动作  关联
 	QString saveStr = QString::fromLocal8Bit("保存变换后的图片");
 	saveImageAction = new QAction(QIcon(":/GrayST/Resources/4.png"), saveStr, this);
-	connect(saveImageAction, SIGNAL(triggered()), this, SLOT(saveImageSlot()));
+	connect(saveImageAction, &QAction::triggered, this, &GrayST::saveImageSlot);
 	//创建打开帮助文档动作  关联
 	QString helpStr = QString::fromLocal8Bit("打开帮助");
 	helpOpenAction = new QAction(QIcon(":/GrayST/Resources/5.png"), helpStr, this);
-	connect(helpOpenAction, SIGNAL(triggered()), this, SLOT(helpOpenActionSlot()));
+	connect(helpOpenAction, &QAction::triggered, this, &GrayST::helpOpenActionSlot);
 	//关联下拉菜单
 
 }
@@ -70,10 +70,8 @@ void GrayST::createToolBar()
 	selectBox = new QComboBox();
 	QString sel1 = QString::fromLocal8Bit("分段线性变换");
 	QString sel2 = QString::fromLocal8Bit("对数变换");
-	QString sel3 = QString::fromLocal8Bit("分层变换");
 	selectBox->addItem(QIcon(":/GrayST/Resources/7.png"), sel1);
 	selectBox->addItem(QIcon(":/GrayST/Resources/7.png"), sel2);
-	selectBox->addItem(QIcon(":/GrayST/Resources/7.png"), sel3);
 	selectTool->addWidget(selectBox);
 
 }
@@ -88,19 +86,24 @@ void  GrayST::initWindow()
 	sliderC = new QSlider(Qt::Horizontal, this);
 	spinD = new QSpinBox(this);
 	sliderD = new QSlider(Qt::Horizontal, this);
+	spinE = new QSpinBox(this);
+	sliderE = new QSlider(Qt::Horizontal, this);
 
 	spinA->setRange(0, 255); //设置数字范围
 	spinB->setRange(0, 255);
 	spinC->setRange(0, 255);
 	spinD->setRange(0, 255);
+	spinE->setRange(0, 255);
 	sliderA->setRange(0, 255);
 	sliderB->setRange(0, 255);
 	sliderC->setRange(0, 255);
 	sliderD->setRange(0, 255);
+	sliderE->setRange(0, 255);
 	setSliderQss(sliderA, "#E8EDF2", "#E74C3C", "#E74C3C");
 	setSliderQss(sliderB, "#E8EDF2", "#E74C3C", "#E74C3C");
 	setSliderQss(sliderC, "#E8EDF2", "#E74C3C", "#E74C3C");
 	setSliderQss(sliderD, "#E8EDF2", "#E74C3C", "#E74C3C");
+	setSliderQss(sliderE, "#E8EDF2", "#E74C3C", "#E74C3C");
 
 	void (QSpinBox:: *spinBoxSignal)(int) = &QSpinBox::valueChanged;
 	//关联QSpinBox和QSlider
@@ -116,16 +119,20 @@ void  GrayST::initWindow()
 	QObject::connect(sliderD, &QSlider::valueChanged, spinD, &QSpinBox::setValue);
 	QObject::connect(spinD, spinBoxSignal, sliderD, &QSlider::setValue);
 	spinD->setValue(0);
+	QObject::connect(sliderE, &QSlider::valueChanged, spinE, &QSpinBox::setValue);
+	QObject::connect(spinE, spinBoxSignal, sliderE, &QSlider::setValue);
+	spinE->setValue(0);
 
 	QGroupBox *groupA = new QGroupBox(tr("Parameter A"));
 	QGroupBox *groupB = new QGroupBox(tr("Parameter B"));
 	QGroupBox *groupC = new QGroupBox(tr("Parameter C"));
 	QGroupBox *groupD = new QGroupBox(tr("Parameter D"));
-
+	QGroupBox *groupE = new QGroupBox(tr("Parameter E"));
 	QHBoxLayout *hboxA = new QHBoxLayout;
 	QHBoxLayout *hboxB = new QHBoxLayout;
 	QHBoxLayout *hboxC = new QHBoxLayout;
 	QHBoxLayout *hboxD = new QHBoxLayout;
+	QHBoxLayout *hboxE = new QHBoxLayout;
 
 	hboxA->addWidget(spinA,1);
 	hboxA->addWidget(sliderA,5);
@@ -147,10 +154,16 @@ void  GrayST::initWindow()
 	hboxD->setSpacing(20);
 	hboxD->setMargin(15);
 
+	hboxE->addWidget(spinE, 1);
+	hboxE->addWidget(sliderE, 5);
+	hboxE->setSpacing(20);
+	hboxE->setMargin(15);
+
 	groupA->setLayout(hboxA);
 	groupB->setLayout(hboxB);
 	groupC->setLayout(hboxC);
 	groupD->setLayout(hboxD);
+	groupE->setLayout(hboxE);
 
 
 	QWidget *widget = new QWidget(this);
@@ -162,6 +175,7 @@ void  GrayST::initWindow()
 	hbox->addWidget(groupB);
 	hbox->addWidget(groupC);
 	hbox->addWidget(groupD);
+	hbox->addWidget(groupE);
 	widget->setLayout(hbox);
 }
 
@@ -208,6 +222,7 @@ void GrayST::openGrayscaleSlot()
 	else
 	{
 		srcI = readFile(fileFull.toStdString());
+		imshow("灰度图",srcI);
 	}
 }
 
@@ -217,9 +232,17 @@ void GrayST::traslateSlot()
 	b = spinB->value();
 	c = spinC->value();
 	d = spinD->value();
-	if (fileFull.isEmpty() || (a == b && b == c && c == d) || (a > b))
+	e = spinE->value();
+
+	if (fileFull.isEmpty())
 	{
 		std::string infoStr("请先选择图片及设置正确参数");
+		QString infoText = QString::fromLocal8Bit(infoStr.data());
+		QMessageBox::information(this, "!", infoText, QMessageBox::Ok);
+	}
+	else if(srcI.empty())
+	{
+		std::string infoStr("请先进行灰度变换");
 		QString infoText = QString::fromLocal8Bit(infoStr.data());
 		QMessageBox::information(this, "!", infoText, QMessageBox::Ok);
 	}
@@ -227,15 +250,31 @@ void GrayST::traslateSlot()
 	{
 		if (selectBox->currentIndex() == 0)
 		{
-			dstI = PieGrayTo(srcI, a, b, c, d);
+			if ((a == b && b == c && c == d) || (a > b))
+			{
+				std::string infoStr("请设置正确参数");
+				QString infoText = QString::fromLocal8Bit(infoStr.data());
+				QMessageBox::information(this, "!", infoText, QMessageBox::Ok);
+			}
+			else
+			{
+				dstI = PieGrayTo(srcI, a, b, c, d);
+				imshow("分段线性变换", dstI);
+			}
 		}
 		else if (selectBox->currentIndex() == 1)
 		{
-			dstI = LogGrayTo(srcI, a);
-		}
-		else if(selectBox->currentIndex() == 2)
-		{
-			dstI = SliGrayTo(srcI, a);
+			if (e == 0)
+			{
+				std::string infoStr("请设置正确参数");
+				QString infoText = QString::fromLocal8Bit(infoStr.data());
+				QMessageBox::information(this, "!", infoText, QMessageBox::Ok);
+			}
+			else
+			{
+				dstI = LogGrayTo(srcI, e);
+				imshow("对数灰度变换", dstI);
+			}
 		}
 	}
 }
@@ -274,4 +313,17 @@ void GrayST::setSliderQss(QSlider *slider, QString normalColor, QString grooveCo
 		"background:qradialgradient(spread:pad,cx:0.5,cy:0.5,radius:0.5,fx:0.5,fy:0.5,stop:0.6 #FFFFFF,stop:0.8 %1);}")
 		.arg(handleColor).arg(handleWidth).arg(handleOffset).arg(handleRadius));
 	slider->setStyleSheet(qss.join(""));
+}
+
+QPixmap GrayST::matToQP(cv::Mat showM)
+{
+	QImage showI((unsigned char*)(showM.data), showM.cols,
+		showM.rows, QImage::Format_Indexed8);
+	QPixmap showQ;
+	showQ = QPixmap::fromImage(showI);
+	return showQ;
+}
+
+void GrayST::showWid(cv::Mat showM)
+{
 }
