@@ -293,13 +293,13 @@ void GrayST::saveImageSlot()
 	{
 		if (selectBox->currentIndex() == 0)
 		{
-			std::string infoStr(savePieMat(dstI, filePath.toStdString(), fileSuffix.toStdString(), a, b, c, d));
+			std::string infoStr("已保存至"+savePieMat(dstI, filePath.toStdString(), fileSuffix.toStdString(), a, b, c, d));
 			QString infoText = QString::fromLocal8Bit(infoStr.data());
 			QMessageBox::information(this, "!", infoText, QMessageBox::Ok);
 		}
 		if (selectBox->currentIndex() == 1)
 		{
-			std::string infoStr(saveLogMat(dstI, filePath.toStdString(), fileSuffix.toStdString(),e));
+			std::string infoStr("已保存至"+saveLogMat(dstI, filePath.toStdString(), fileSuffix.toStdString(),e));
 			QString infoText = QString::fromLocal8Bit(infoStr.data());
 			QMessageBox::information(this, "!", infoText, QMessageBox::Ok);
 		}

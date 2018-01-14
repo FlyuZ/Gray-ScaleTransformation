@@ -15,7 +15,7 @@ std::string savePieMat(cv::Mat dstI, std::string Path, std::string Suffix, int a
 {
 	std::stringstream ss;
 	std::string Full;
-	ss << Path << "/" << "已保存至分段" << a << "-" << b << "-" << c << "-" << d << "." << Suffix;
+	ss << Path << "/" << "分段" << a << "-" << b << "-" << c << "-" << d << "." << Suffix;
 	ss >> Full;
 
 	if (imwrite(Full, dstI))
@@ -28,7 +28,7 @@ std::string saveLogMat(cv::Mat dstI, std::string Path, std::string Suffix, int e
 {
 	std::stringstream ss;
 	std::string Full;
-	ss << Path << "/" << "已保存至对数" << e << "." << Suffix;
+	ss << Path << "/" << "对数" << e << "." << Suffix;
 	ss >> Full;
 
 	if (imwrite(Full, dstI))
